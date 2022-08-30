@@ -35,19 +35,21 @@ then
   gum confirm "$FILE exists. Would you like to delete it?" && rm $FILE || exit 1
 fi
 
-DEVCOMMAND=$(gum input --placeholder "dev command")
+CONFIGNAME=$(gum input --prompt "Config name > " --value $folder)
 
 touch ./.tmuxinator.yml
 echo "# ./tmuxinator.yml\n" >> ./.tmuxinator.yml
-echo "name: $folder" >> ./.tmuxinator.yml
+echo "name: $CONFIGNAME" >> ./.tmuxinator.yml
 echo "root: ." >> ./.tmuxinator.yml
+
+DEVCOMMAND=$(gum input --prompt "Dev command > " --placeholder "yarn dev")
 
 echo "windows:" >> ./.tmuxinator.yml
 echo "  - editor: nvim ." >> ./.tmuxinator.yml
 echo "  - server: $DEVCOMMAND" >> ./.tmuxinator.yml
 
 gum format -- "# Tmuxinator config created 🚀"
-gum format -- "Create a session with __'tmuxinator start $folder'__"
+gum format -- "Create a session with __'tmuxinator start $CONFIGNAME'__"
 
 exit 0
 
