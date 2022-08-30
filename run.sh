@@ -4,6 +4,29 @@ gum style \
 	--align center --width 50 --margin "1 2" --padding "1" \
 	"Welcome to Rixcy's tmuxinator configurator"
 
+# Check if OSX
+if [ "$(uname)" != "Darwin" ]; then
+  gum format -- "# This script is intended for OSX sorry!"
+  exit 1
+fi
+
+# Check if tmuxinator is installed
+if ! command -v tmuxinator &> /dev/null
+then
+  # Check if homebrew is installed
+  if ! command -v brew &> /dev/null
+  then
+    gum confirm "Homebrew isn't installed. Install it?" && \
+      "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"" || \
+      gum format -- "# Cancelling" | \
+      exit 1
+  fi
+  gum confirm "Tmuxinator isn't installed. Install it?" && \
+    "brew install tmuxinator" || \
+    gum format -- "# Cancelling" | \
+    exit 1
+fi
+
 folder=${PWD##*/}
 
 FILE=".tmuxinator.yml"
