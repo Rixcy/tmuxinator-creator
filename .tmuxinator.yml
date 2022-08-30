@@ -1,0 +1,7 @@
+# ./tmuxinator.yml
+
+name: creator
+root: .
+windows:
+  - editor: nvim .
+  - server: yarn dev
